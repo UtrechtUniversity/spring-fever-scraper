@@ -42,7 +42,7 @@ class Scraper(ABC):
     def run(self) -> list[Post]:
         self.collect_subpages()
         results = []
-        for url in tqdm(self.subpages[:2], desc=f"Scraping pages of {self.name}..."):
+        for url in tqdm(self.subpages, desc=f"Scraping {self.name}..."):
             if soup := self.fetch(url):
                 for author_id, text in self.parse(soup):
                     results.append(
