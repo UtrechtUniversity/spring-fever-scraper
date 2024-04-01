@@ -1,13 +1,16 @@
-from scraper.base import Scraper
-from scraper.ouders import OudersNLScraper
+AUTHORS = []
 
 
-SCRAPERS = {
-    'ouders.nl': OudersNLScraper
-}
+def get_author_id(author: str) -> int:
+    """Replace author account name by id"""
+    if author not in AUTHORS:
+        AUTHORS.append(author)
+    return AUTHORS.index(author)
 
 
-def load_scraper(kind: str, **kwargs) -> Scraper:
-    if kind not in SCRAPERS:
-        raise ValueError(f"Type {kind} not found. Available scrapers: {SCRAPERS.keys()}")
-    return SCRAPERS[kind](**kwargs)
+def replace_authors(text: str) -> str:
+    """Replace name of authors/accounts in text"""
+    for author in AUTHORS:
+        text = text.replace(f" {author} ", f" {get_author_id(author)}")
+        text = text.replace(f"@{author} ", f"@{get_author_id(author)}")
+    return text

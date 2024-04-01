@@ -1,6 +1,6 @@
-from abc import ABC
+from abc import ABC, abstractmethod
 from dataclasses import dataclass
-from typing import Optional
+from typing import Optional, Generator
 
 import requests
 from bs4 import BeautifulSoup
@@ -9,7 +9,7 @@ from tqdm import tqdm
 
 @dataclass
 class Post:
-    author_id: str
+    author_id: int
     text: str
     name: str
     url: str
@@ -17,12 +17,23 @@ class Post:
 
 class Scraper(ABC):
     def __init__(self, name: str, base_url: str):
+        """
+        Base functionality to be used for any scraper. Assumes that a given page
+        may have multiple sub-pages with an identical structure.
+        :param name: string identifier to be used in results
+        :param base_url: the page whose subpages should be scraped
+        """
         self.name = name
         self.base_url = base_url
         self.subpages = None
-        self.authors = []
 
-    def fetch(self, url) -> Optional[BeautifulSoup]:
+    @staticmethod
+    def fetch(url: str) -> Optional[BeautifulSoup]:
+        """
+        Fetch page HTML and parse with BeautifulSoup.
+        :param url: url whose HTML must be fetched
+        :return: parsed DOM as BeautifulSoup (if successful)
+        """
         try:
             response = requests.get(url)
             response.raise_for_status()
@@ -33,32 +44,29 @@ class Scraper(ABC):
             print(f"An error occurred: {e}")
         return None
 
-    def collect_subpages(self) -> list[str]:
-        raise NotImplementedError("Subclasses must implement collect_subpages method")
+    @abstractmethod
+    def collect_subpages(self):
+        """
+        Collect all subpages that are to be scraped and store in `self.subpages`.
+        """
+        pass
 
-    def parse(self, soup):
-        raise NotImplementedError("Subclasses must implement parse method")
+    @abstractmethod
+    def parse(self, soup: BeautifulSoup) -> Generator[tuple[int, str], None, None]:
+        """
+        Parse a single page. Yield the (anonymized) author and text.
+        :param soup: parsed DOM object containing the responses
+        :return: as generator, tuples of author-ids and response texts
+        """
+        pass
 
-    def run(self) -> list[Post]:
+    def run(self) -> Generator[Post, None, None]:
+        """
+        Iterate over subpages and retrieve required information.
+        :return: relevant information as Post objects
+        """
         self.collect_subpages()
-        results = []
         for url in tqdm(self.subpages, desc=f"Scraping {self.name}..."):
             if soup := self.fetch(url):
                 for author_id, text in self.parse(soup):
-                    results.append(
-                        Post(author_id, text, self.name, url)
-                    )
-        return results
-
-    def author_id(self, author: str) -> int:
-        """Replace author account name by id"""
-        if author not in self.authors:
-            self.authors.append(author)
-        return self.authors.index(author)
-
-    def replace_authors(self, text: str) -> str:
-        """Replace name of authors/accounts in text"""
-        for author in self.authors:
-            text = text.replace(f" {author} ", f" {self.author_id(author)}")
-            text = text.replace(f"@{author} ", f"@{self.author_id(author)}")
-        return text
+                    yield Post(author_id, text, self.name, url)
