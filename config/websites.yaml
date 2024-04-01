@@ -1,0 +1,13 @@
+websites:
+  - kind: "ouders.nl"
+    settings:
+      name: "Ouders.nl - sex bespreken op school"
+      base_url: "https://www.ouders.nl/forum/ouders-en-school/alles-over-sex-bespreken-op-de-lagere-school"
+  - kind: "ouders.nl"
+    settings:
+        name: "Ouders.nl - leeftijd seksuele voorlichting"
+        base_url: "https://www.ouders.nl/forum/5-basisschoolleeftijd/op-welke-leeftijd-kregen-jullie-seksuele-voorlichting-en-jullie-kinderen"
+  - kind: "ouders.nl"
+    settings:
+      name: "Ouders.nl - masturbatieles"
+      base_url: "https://www.ouders.nl/forum/ouders-en-school/de-masturbarieles-van-mijn-kind-op-school-groep-3"
