@@ -50,6 +50,6 @@ class OudersNLScraper(Scraper):
         first_page = self.fetch(self.base_url)
         max_page = max(int(t.text)
                        for t in first_page.find_all("a", class_="page-link")
-                       if all(i.isdigit() for i in t)) - 1
+                       if all(i.isdigit() for i in t))
         self.subpages = [f"{self.base_url}?page={i}"
                          for i in range(max_page)]

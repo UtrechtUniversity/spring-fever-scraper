@@ -1,8 +1,12 @@
 from scraper.base import Scraper
+from scraper.facebook import FacebookScraper
 from scraper.ouders import OudersNLScraper
+from scraper.youtube import YouTubeScraper
 
 SCRAPERS = {
-    'ouders.nl': OudersNLScraper
+    "facebook": FacebookScraper,
+    'ouders.nl': OudersNLScraper,
+    "youtube": YouTubeScraper
 }
 
 

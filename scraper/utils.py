@@ -12,5 +12,5 @@ def replace_authors(text: str) -> str:
     """Replace name of authors/accounts in text"""
     for author in AUTHORS:
         text = text.replace(f" {author} ", f" {get_author_id(author)}")
-        text = text.replace(f"@{author} ", f"@{get_author_id(author)}")
+        text = text.replace(f"@{author}", f"@{get_author_id(author)}")
     return text

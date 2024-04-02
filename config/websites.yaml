@@ -1,13 +1,41 @@
 websites:
   - kind: "ouders.nl"
     settings:
-      name: "Ouders.nl - sex bespreken op school"
+      name: "Ouders.nl / sex bespreken op school"
       base_url: "https://www.ouders.nl/forum/ouders-en-school/alles-over-sex-bespreken-op-de-lagere-school"
   - kind: "ouders.nl"
     settings:
-        name: "Ouders.nl - leeftijd seksuele voorlichting"
+        name: "Ouders.nl / leeftijd seksuele voorlichting"
         base_url: "https://www.ouders.nl/forum/5-basisschoolleeftijd/op-welke-leeftijd-kregen-jullie-seksuele-voorlichting-en-jullie-kinderen"
   - kind: "ouders.nl"
     settings:
-      name: "Ouders.nl - masturbatieles"
+      name: "Ouders.nl / masturbatieles"
       base_url: "https://www.ouders.nl/forum/ouders-en-school/de-masturbarieles-van-mijn-kind-op-school-groep-3"
+  - kind: "youtube"
+    settings:
+      name: "Youtube / Telegraaf"
+      base_url: "https://www.youtube.com/watch?v=1wcLtnFkxgg"
+  - kind: "youtube"
+    settings:
+      name: "Youtube / RTL"
+      base_url: "https://www.youtube.com/watch?v=u59N8CuoqdQ"
+  - kind: "youtube"
+    settings:
+      name: "Youtube / PowNed"
+      base_url: "https://www.youtube.com/watch?v=faUuTPB2Pws"
+  - kind: "facebook"
+    settings:
+      name: "Facebook Rutgers / 14 maart"
+      base_url: "https://www.facebook.com/NL.Rutgers/posts/5978301198885240"
+  - kind: "facebook"
+    settings:
+      name: "Facebook Rutgers / 20 maart"
+      base_url: "https://www.facebook.com/NL.Rutgers/posts/5996283410420352"
+  - kind: "facebook"
+    settings:
+      name: "Facebook Rutgers / 21 maart"
+      base_url: "https://www.facebook.com/NL.Rutgers/posts/5998317583550268"
+  - kind: "nu.nl"
+    settings:
+      name: "Nu.nl / Week van de Lentekriebels"
+      base_url: "https://www.nu.nl/kind-gezin/6256465/week-van-de-lentekriebels-hoe-geef-je-je-kind-seksuele-voorlichting.html"
