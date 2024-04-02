@@ -6,7 +6,7 @@ from scraper.base import Scraper
 from scraper.utils import get_author_id, replace_authors
 
 
-class FacebookScraper(Scraper):
+class NuNLScraper(Scraper):
 
     def __init__(self, name: str, base_url: str):
         """
