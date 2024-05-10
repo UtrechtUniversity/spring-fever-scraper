@@ -2,11 +2,11 @@ from typing import Generator
 
 from bs4 import BeautifulSoup
 
-from scraper.base import Scraper
-from scraper.utils import get_author_id, replace_authors
+from scraper.web import WebScraper
+from scraper.utils import get_author_id, replace_authors, clean
 
 
-class OudersNLScraper(Scraper):
+class OudersNLScraper(WebScraper):
 
     def __init__(self, name: str, base_url: str):
         """
@@ -37,7 +37,7 @@ class OudersNLScraper(Scraper):
             aid = get_author_id(author_name)
 
             texts = reaction.find('div', class_='content').find_all('p', recursive=False)
-            text = " ".join(t.text.strip() for t in texts).strip().replace("\n", " ")
+            text = clean(" ".join(t.text.strip() for t in texts))
             text = replace_authors(text)
 
             yield aid, text

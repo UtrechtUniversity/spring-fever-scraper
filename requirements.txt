@@ -1,4 +1,6 @@
 beautifulsoup4
 confidence
+facebook-scraper
+lxml_html_clean
 requests
 tqdm

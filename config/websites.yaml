@@ -11,31 +11,30 @@ websites:
     settings:
       name: "Ouders.nl / masturbatieles"
       base_url: "https://www.ouders.nl/forum/ouders-en-school/de-masturbarieles-van-mijn-kind-op-school-groep-3"
-  - kind: "youtube"
-    settings:
-      name: "Youtube / Telegraaf"
-      base_url: "https://www.youtube.com/watch?v=1wcLtnFkxgg"
-  - kind: "youtube"
-    settings:
-      name: "Youtube / RTL"
-      base_url: "https://www.youtube.com/watch?v=u59N8CuoqdQ"
-  - kind: "youtube"
-    settings:
-      name: "Youtube / PowNed"
-      base_url: "https://www.youtube.com/watch?v=faUuTPB2Pws"
+#  - kind: "youtube"
+#    settings:
+#      name: "Youtube / Telegraaf"
+#      base_url: "https://www.youtube.com/watch?v=1wcLtnFkxgg"
+#  - kind: "youtube"
+#    settings:
+#      name: "Youtube / RTL"
+#      base_url: "https://www.youtube.com/watch?v=u59N8CuoqdQ"
+#  - kind: "youtube"
+#    settings:
+#      name: "Youtube / PowNed"
+#      base_url: "https://www.youtube.com/watch?v=faUuTPB2Pws"
   - kind: "facebook"
     settings:
       name: "Facebook Rutgers / 14 maart"
-      base_url: "https://www.facebook.com/NL.Rutgers/posts/5978301198885240"
+      post_url: "https://www.facebook.com/NL.Rutgers/posts/5978301198885240"
+      post_id: "pfbid0SaqyGLmPy4oNRp6tY1RTzb7Y7EKaPkbWRAXKvNXcnsPZoaRPoiCpAJ9S6uSNusnfl"
   - kind: "facebook"
     settings:
       name: "Facebook Rutgers / 20 maart"
-      base_url: "https://www.facebook.com/NL.Rutgers/posts/5996283410420352"
+      post_url: "https://www.facebook.com/NL.Rutgers/posts/5996283410420352"
+      post_id: "pfbid033uePDz7sNG3qtVe9SsQg6nFn3d7NvWYM3weruwY6Ay7XbToWYaaaQcbErKSyjBGfl"
   - kind: "facebook"
     settings:
       name: "Facebook Rutgers / 21 maart"
-      base_url: "https://www.facebook.com/NL.Rutgers/posts/5998317583550268"
-  - kind: "nu.nl"
-    settings:
-      name: "Nu.nl / Week van de Lentekriebels"
-      base_url: "https://www.nu.nl/kind-gezin/6256465/week-van-de-lentekriebels-hoe-geef-je-je-kind-seksuele-voorlichting.html"
+      post_url: "https://www.facebook.com/NL.Rutgers/posts/5998317583550268"
+      post_id: "pfbid023Aj7FZQbxEJs2UTmVnyCSj8Tve1Msmc9Au9CvM9YxWxeSmXLcU4WLCvEDgug2a4El"
