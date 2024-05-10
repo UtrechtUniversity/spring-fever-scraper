@@ -5,6 +5,7 @@ from datetime import datetime
 from confidence import load_name
 
 from scraper import load_scraper
+from scraper.utils import clean, replace_authors
 
 
 def main():
@@ -23,8 +24,9 @@ def main():
 
         for website in config.websites:
             scraper = load_scraper(website.kind, **website.settings)
-            for result in scraper.run():
-                writer.writerow([result.author_id, result.text, result.name, result.url])
+            website_posts = [post for post in scraper.run()]
+            for post in website_posts:
+                writer.writerow([post.author_id, replace_authors(clean(post.text)), post.name, post.url])
 
 
 if __name__ == '__main__':

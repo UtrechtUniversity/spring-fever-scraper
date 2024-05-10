@@ -1,10 +1,6 @@
 from abc import ABC, abstractmethod
 from dataclasses import dataclass
-from typing import Optional, Generator, Any, Union
-
-import requests
-from bs4 import BeautifulSoup
-from tqdm import tqdm
+from typing import Generator, Any, Union
 
 
 @dataclass

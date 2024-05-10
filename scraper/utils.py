@@ -11,8 +11,8 @@ def get_author_id(author: str) -> int:
 def replace_authors(text: str, no_space: bool = False) -> str:
     """Replace name of authors/accounts in text"""
     for author in AUTHORS:
-        text = text.replace(f"{author} ", f"@{get_author_id(author)} ")
         text = text.replace(f"@{author}", f"@{get_author_id(author)}")
+        text = text.replace(f"{author} ", f"@{get_author_id(author)} ")
         if no_space:
             text = text.replace(author, f"@{get_author_id(author)}")
     return text

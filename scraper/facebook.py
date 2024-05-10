@@ -4,13 +4,13 @@ import facebook_scraper as fs
 from tqdm import tqdm
 
 from scraper.base import Scraper, Post
-from scraper.utils import clean, get_author_id, replace_authors
+from scraper.utils import get_author_id
 
 
 class FacebookScraper(Scraper):
 
     def __init__(self, name: str, post_url: str, post_id: str,
-                 cookies_path: Optional[str] = "cookies.json",
+                 cookies_path: Optional[str] = "credentials/fb_cookies.json",
                  max_comments: Optional[int] = 100):
         """
         Functionality for scraping reactions from Facebook.
@@ -18,7 +18,7 @@ class FacebookScraper(Scraper):
         post (including all reactions).
 
         Uses the implementation in `facebook_scraper`. Requires
-        that a valid cookies.json is present, which can be
+        that a valid fb_cookies.json is present, which can be
         generated using the get cookies.txt LOCALLY plugin
         on Chrome. See `facebook_scraper` docs for details.
 
@@ -50,17 +50,15 @@ class FacebookScraper(Scraper):
 
     def parse(self, post: fs.Post) -> Generator[tuple[int, str], None, None]:
         """
-        Parse a single page of posts and responses. Yield the (anonymized) author and text.
-        :param post: parsed DOM object containing the responses
+        Parse a single page of comments. Yield the author and text.
+        :param post: facebook post object containing the comments
         :return: as generator, tuples of author-ids and response texts
         """
         comments = post['comments_full']
         for comment in comments:
-            yield (get_author_id(comment['commenter_name']),
-                   replace_authors(clean(comment['comment_text']), no_space=True))
+            yield get_author_id(comment['commenter_name']), comment['comment_text']
             for reply in comment['replies']:
-                yield (get_author_id(reply['commenter_name']),
-                       replace_authors(clean(reply['comment_text']), no_space=True))
+                yield get_author_id(reply['commenter_name']), reply['comment_text']
 
     def run(self) -> Generator[Post, None, None]:
         if post := self.fetch(self.post_id):

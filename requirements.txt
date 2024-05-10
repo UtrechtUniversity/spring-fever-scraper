@@ -1,6 +1,7 @@
 beautifulsoup4
 confidence
 facebook-scraper
+google-api-python-client
 lxml_html_clean
 requests
 tqdm

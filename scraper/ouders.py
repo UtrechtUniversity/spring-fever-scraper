@@ -3,7 +3,7 @@ from typing import Generator
 from bs4 import BeautifulSoup
 
 from scraper.web import WebScraper
-from scraper.utils import get_author_id, replace_authors, clean
+from scraper.utils import get_author_id
 
 
 class OudersNLScraper(WebScraper):
@@ -34,13 +34,9 @@ class OudersNLScraper(WebScraper):
 
         for reaction in reactions:
             author_name = reaction.find('div', class_='author-information').find('h3').text.strip()
-            aid = get_author_id(author_name)
-
             texts = reaction.find('div', class_='content').find_all('p', recursive=False)
-            text = clean(" ".join(t.text.strip() for t in texts))
-            text = replace_authors(text)
 
-            yield aid, text
+            yield get_author_id(author_name), " ".join(t.text.strip() for t in texts)
 
     def collect_subpages(self) -> None:
         """

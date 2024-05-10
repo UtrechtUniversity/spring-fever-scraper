@@ -11,18 +11,6 @@ websites:
     settings:
       name: "Ouders.nl / masturbatieles"
       base_url: "https://www.ouders.nl/forum/ouders-en-school/de-masturbarieles-van-mijn-kind-op-school-groep-3"
-#  - kind: "youtube"
-#    settings:
-#      name: "Youtube / Telegraaf"
-#      base_url: "https://www.youtube.com/watch?v=1wcLtnFkxgg"
-#  - kind: "youtube"
-#    settings:
-#      name: "Youtube / RTL"
-#      base_url: "https://www.youtube.com/watch?v=u59N8CuoqdQ"
-#  - kind: "youtube"
-#    settings:
-#      name: "Youtube / PowNed"
-#      base_url: "https://www.youtube.com/watch?v=faUuTPB2Pws"
   - kind: "facebook"
     settings:
       name: "Facebook Rutgers / 14 maart"
@@ -38,3 +26,15 @@ websites:
       name: "Facebook Rutgers / 21 maart"
       post_url: "https://www.facebook.com/NL.Rutgers/posts/5998317583550268"
       post_id: "pfbid023Aj7FZQbxEJs2UTmVnyCSj8Tve1Msmc9Au9CvM9YxWxeSmXLcU4WLCvEDgug2a4El"
+  - kind: "youtube"
+    settings:
+      name: "Youtube / Telegraaf"
+      video_id: "1wcLtnFkxgg"
+  - kind: "youtube"
+    settings:
+      name: "Youtube / RTL"
+      video_id: "u59N8CuoqdQ"
+  - kind: "youtube"
+    settings:
+      name: "Youtube / PowNed"
+      video_id: "faUuTPB2Pws"
