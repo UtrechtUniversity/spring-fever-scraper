@@ -33,7 +33,7 @@ See `scraper/facebook.py` and `scraper/youtube.py` for specifics.
 As is common, the developed scrapers rely on the existing page layout of the websites at the time of development. If the structure of these pages should change, the scrapers may no longer work.
 
 Anonymization occurs by replacing usernames by an integer (e.g. "@JohnDoe" becomes "@0", "@JaneDoe" becomes "@1").
-This is done by first collecting all author usernames of all posts, and then replacing these in the texts of the posts themselves.
+This is done by first collecting all author usernames of all posts and assigning them an integer, and then replacing all occurrences of a username in the texts of the posts by its assigned integer.
 This approach has the limitation that usernames which are *mentioned in* posts, but who are never the *author of* a post, are not recognized as usernames and therefore not replaced.
 Therefore, if privacy is of concern (which it most likely is), make sure to perform a manual check of the retrieved data before further processing.
 
@@ -45,6 +45,6 @@ TODO
 
 ## Contact
 
-A publication about the results of the analysis performed on the basis of the data scraped is forthcoming (and will be linked here).
+A publication about the results of the analysis performed on the basis of the data scraped using this repository is forthcoming (and will be linked here).
 Otherwise, this repository will no longer be actively maintained.
 Should you nonetheless wish to get in touch, you may do so by opening an Issue.
