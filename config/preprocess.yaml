@@ -1,0 +1,6 @@
+preprocess:
+  input_file: scratch/example.csv
+  steps:
+  - kind: stemming
+    settings:
+      protocol: snowball-dutch

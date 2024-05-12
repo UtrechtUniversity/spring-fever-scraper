@@ -10,11 +10,11 @@ from scraper.utils import clean, replace_authors
 
 def main():
     """
-    Main script for scraping websites defined in config/websites.yaml.
+    Main script for scraping websites defined in config/scrape.yaml.
     Writes results to csv as they are retrieved.
     """
 
-    config = load_name('config/websites')
+    config = load_name('config/scrape')
     os.makedirs("scratch", exist_ok=True)
     filename = f"scratch/results_{datetime.now().strftime("%Y%m%d-%H%M%S")}.csv"
 
