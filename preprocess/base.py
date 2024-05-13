@@ -2,9 +2,7 @@ from abc import ABC, abstractmethod
 
 
 class Preprocessor(ABC):
-    def __init__(self):
-        pass
 
     @abstractmethod
-    def __call__(self, sentence: str):
+    def __call__(self, sentence: str) -> str:
         pass

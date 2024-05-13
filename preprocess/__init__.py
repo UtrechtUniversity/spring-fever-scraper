@@ -1,8 +1,14 @@
 from preprocess.base import Preprocessor
-from preprocess.stemming import Stemmer
+from preprocess.maskers import AccountMasker
+from preprocess.removers import StopwordRemover, PunctuationRemover
+from preprocess.normalizers import Stemmer, Lemmatizer
 
 PREPROCESSORS = {
-    'stemming': Stemmer
+    'account-masker': AccountMasker,
+    'lemmatizer': Lemmatizer,
+    'punctuation-remover': PunctuationRemover,
+    'stemmer': Stemmer,
+    'stopword-remover': StopwordRemover
 }
 
 

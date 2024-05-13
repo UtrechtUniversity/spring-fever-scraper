@@ -1,6 +1,9 @@
 preprocess:
   input_file: scratch/final.csv
   steps:
-  - kind: stemming
-    settings:
-      protocol: snowball-dutch
+    - kind: account-masker
+    - kind: stopword-remover
+    - kind: punctuation-remover
+    - kind: lemmatizer
+#  - kind: stemmer
+

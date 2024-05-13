@@ -1,5 +1,6 @@
 import pandas as pd
 from confidence import load_name
+from tqdm import tqdm
 
 from preprocess import load_preprocessor
 
@@ -13,8 +14,9 @@ def main():
     """
     config = load_name('config/preprocess')
 
-    df = pd.read_csv(config.preprocess.input_file)
-    for step in config.preprocess.steps:
+    df = pd.read_csv(config.preprocess.input_file).astype('str')
+    df['original_text'] = df['text']
+    for step in tqdm(config.preprocess.steps, desc="Applying preprocessing steps..."):
         preprocessor = load_preprocessor(step.kind, **step.settings)
         df['text'] = df['text'].apply(preprocessor)
 
