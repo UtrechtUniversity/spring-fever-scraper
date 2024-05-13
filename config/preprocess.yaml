@@ -1,5 +1,5 @@
 preprocess:
-  input_file: scratch/example.csv
+  input_file: scratch/final.csv
   steps:
   - kind: stemming
     settings:
