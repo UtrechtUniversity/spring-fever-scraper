@@ -4,6 +4,8 @@ facebook-scraper
 google-api-python-client
 lxml_html_clean
 nltk
+numpy
+scipy
 pandas
 requests
 tqdm

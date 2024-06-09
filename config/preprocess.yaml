@@ -1,5 +1,11 @@
 preprocess:
-  input_file: scratch/final.csv
+  input_files:
+    - names:
+        - scratch/final.csv
+      kind: csv
+    - names:
+        - scratch/test_set_articles.ZIP
+      kind: zip
   steps:
     - kind: account-masker
     - kind: stopword-remover
