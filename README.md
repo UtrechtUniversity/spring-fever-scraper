@@ -32,16 +32,30 @@ See `scraper/facebook.py` and `scraper/youtube.py` for specifics.
 
 As is common, the developed scrapers rely on the existing page layout of the websites at the time of development. If the structure of these pages should change, the scrapers may no longer work.
 
-Anonymization occurs by replacing usernames by an integer (e.g. "@JohnDoe" becomes "@0", "@JaneDoe" becomes "@1").
+**Anonymization** occurs by replacing usernames by an integer (e.g. `@JohnDoe` becomes `@0`, `@JaneDoe` becomes `@1`).
 This is done by first collecting all author usernames of all posts and assigning them an integer, and then replacing all occurrences of a username in the texts of the posts by its assigned integer.
 This approach has the limitation that usernames which are *mentioned in* posts, but who are never the *author of* a post, are not recognized as usernames and therefore not replaced.
 Therefore, if privacy is of concern (which it most likely is), make sure to perform a manual check of the retrieved data before further processing.
 
 ## Preprocessing
 
-The script `preprocess.py` contains functionality for preprocessing of natural language. 
+The script `preprocess.py` contains functionality for preprocessing of natural language.
+The available options were developed with classical topic modelling approaches in mind.
+For topic modelling, it is desirable that documents are "normalized" as much as possible, in order to increase the density of the distribution of the model to be fit.
+This means that all preprocessing options help to reduce the text to a form that maintains the most important features that capture the meaning of the text, while removing as much redundancy as possible.
+Moreover, the documents are assumed to be in Dutch, so Dutch lexicons are used wherever appropriate (although it should be straightforward to replace these if required).
 
-TODO 
+The preprocessing options that can be executed are listed below.
+
+* **Account masking**: following the anonymization described above, documents can be normalized by replacing all of `@0`, `@1`, `@2`, ... etc. with `@USER`.
+* **Stopword removal**: removes all stopwords that are included in the NLTK Dutch stopword corpus.
+* **Punctuation removal**: removes all punctuation according to Python's `string.punctuation`, that is, the following characters: `!"#$%&'()*+, -./:;<=>?@[\]^_`{|}~`
+* **Lemmatization**: reduces words to a root form, using the `nl_core_news_lg` corpus from Spacy.
+* **Stemming**: reduces words to their stem, e.g. by removing prefixes and suffixes, using the Dutch `snowball` stemmer from Spacy. Lemmatization seems to perform better than stemming for the present corpus.
+
+The preprocessing steps to be executed are defined in `config/preprocess.yaml`.
+The steps are applied in the order that they are listed.
+In addition, the files that preprocessing should be applied to are listed in the same `.yaml` file.
 
 ## Contact
 
