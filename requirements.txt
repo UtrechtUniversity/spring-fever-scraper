@@ -6,6 +6,8 @@ lxml_html_clean
 nltk
 numpy
 scipy
+striprtf
+spacy
 pandas
 requests
 tqdm

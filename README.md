@@ -57,6 +57,8 @@ The preprocessing steps to be executed are defined in `config/preprocess.yaml`.
 The steps are applied in the order that they are listed.
 In addition, the files that preprocessing should be applied to are listed in the same `.yaml` file.
 
+**Note**: if you want to run lemmatization, run `python -m spacy download nl_core_news_lg` before running `preprocess.py`.
+
 ## Contact
 
 A publication about the results of the analysis performed on the basis of the data scraped using this repository is forthcoming (and will be linked here).
