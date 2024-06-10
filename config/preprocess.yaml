@@ -1,8 +1,8 @@
 preprocess:
   input_files:
-#    - names:
-#        - scratch/final.csv
-#      kind: csv
+    - names:
+        - scratch/scraped_posts.csv
+      kind: csv
     - names:
         - scratch/test_set_articles.ZIP
       kind: zip
@@ -12,4 +12,3 @@ preprocess:
     - kind: punctuation-remover
     - kind: lemmatizer
 #  - kind: stemmer
-

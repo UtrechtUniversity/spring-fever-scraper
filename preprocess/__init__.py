@@ -4,7 +4,7 @@ from preprocess.base import Preprocessor
 from preprocess.maskers import AccountMasker
 from preprocess.removers import StopwordRemover, PunctuationRemover
 from preprocess.normalizers import Stemmer, Lemmatizer
-from preprocess.utils import read_from_csv, read_from_zip, to_csv
+from preprocess.utils import read_from_csv, read_from_zip
 
 PREPROCESSORS = {
     'account-masker': AccountMasker,

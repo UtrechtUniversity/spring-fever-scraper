@@ -10,7 +10,10 @@ This repository was created for a research project initiated by Utrecht Universi
 - Python 3.10 or newer
 
 ### Requirements
-All package requirements for running the application are specified in `requirements.txt`. Packages can be installed from PyPi, e.g. through `pip install -r requirements.txt`.
+All package requirements for running the application are specified in `requirements.txt`. 
+Packages can be installed from PyPi, e.g. through `pip install -r requirements.txt`.
+**Note**: for lemmatization (during preprocessing), run `python -m spacy download nl_core_news_lg` before running `preprocess.py`.
+
 
 ## Scraper
 
@@ -49,7 +52,7 @@ The preprocessing options that can be executed are listed below.
 
 * **Account masking**: following the anonymization described above, documents can be normalized by replacing all of `@0`, `@1`, `@2`, ... etc. with `@USER`.
 * **Stopword removal**: removes all stopwords that are included in the NLTK Dutch stopword corpus.
-* **Punctuation removal**: removes all punctuation according to Python's `string.punctuation`, that is, the following characters: `!"#$%&'()*+, -./:;<=>?@[\]^_`{|}~`
+* **Punctuation removal**: removes all punctuation according to Python's `string.punctuation`, that is, the following characters: ```!"#$%&'()*+, -./:;<=>?@[\]^_`{|}~```
 * **Lemmatization**: reduces words to a root form, using the `nl_core_news_lg` corpus from Spacy.
 * **Stemming**: reduces words to their stem, e.g. by removing prefixes and suffixes, using the Dutch `snowball` stemmer from Spacy. Lemmatization seems to perform better than stemming for the present corpus.
 
@@ -57,7 +60,6 @@ The preprocessing steps to be executed are defined in `config/preprocess.yaml`.
 The steps are applied in the order that they are listed.
 In addition, the files that preprocessing should be applied to are listed in the same `.yaml` file.
 
-**Note**: if you want to run lemmatization, run `python -m spacy download nl_core_news_lg` before running `preprocess.py`.
 
 ## Contact
 

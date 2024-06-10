@@ -5,6 +5,7 @@ google-api-python-client
 lxml_html_clean
 nltk
 numpy
+openpyxl
 scipy
 striprtf
 spacy
