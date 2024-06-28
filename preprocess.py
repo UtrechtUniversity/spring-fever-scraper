@@ -37,7 +37,7 @@ def main():
             documents['text'] = documents['text'].apply(preprocessor)
 
         documents.to_csv(f"{input_file.name}_preprocessed.csv", index=False)
-        documents.to_excel(f"{input_file.stem}_preprocessed.xlsx", index=False)
+        documents.to_excel(f"{input_file.name}_preprocessed.xlsx", index=False)
 
 
 if __name__ == '__main__':
