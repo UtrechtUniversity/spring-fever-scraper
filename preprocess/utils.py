@@ -1,10 +1,13 @@
 import os
+import re
 import zipfile
 from pathlib import Path
-from typing import Dict, Optional
+from typing import Dict, Optional, Sequence, Tuple
 
 import pandas as pd
 from striprtf.striprtf import rtf_to_text
+
+DATE_PATTERN = r"(\d{1,2})\s(\w+)\s(\d{4})"
 
 
 def read_from_csv(filename: os.PathLike) -> pd.DataFrame:
@@ -40,7 +43,7 @@ def parse_rtf(
         start_text: Optional[str] = 'Body',
         end_text: Optional[str] = 'Classification'
 ) -> Dict[str, str]:
-    text_split = [text.strip() for text in rtf_text.split("\n") if text]
+    text_split = [" ".join(text.split()) for text in rtf_text.split("\n") if text]
     title = text_split[0]
     source = text_split[1]
     date = text_split[2]
@@ -48,11 +51,33 @@ def parse_rtf(
     content_start = text_split.index(start_text) + 1 if start_text in text_split else 0
     content_end = text_split.index(end_text) if end_text in text_split else len(text_split)
 
-    text = " ".join(text_split[content_start:content_end])
+    article_text = " ".join(text_split[content_start:content_end])
+
+    text = f"{title} {article_text}"
+
+    day, month, year = parse_date(date)
 
     return {
         'title': title,
         'source': source,
+        'day': day,
+        'month': month,
+        'year': year,
         'date': date,
+        'article_text': article_text,
         'text': text
     }
+
+
+def parse_date(date: str) -> Tuple[Optional[int], Optional[int], Optional[int]]:
+    match = re.search(DATE_PATTERN, date)
+    if match:
+        day, month, year = match.groups()
+        return day, month, year
+    else:
+        return None, None, None
+
+
+def group(df: pd.DataFrame, columns: Sequence[str]) -> pd.DataFrame:
+    new_df = df.groupby(columns).agg(lambda x: ", ".join(x)).reset_index()
+    return new_df

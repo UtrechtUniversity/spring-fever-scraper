@@ -51,10 +51,12 @@ Moreover, the documents are assumed to be in Dutch, so Dutch lexicons are used w
 The preprocessing options that can be executed are listed below.
 
 * **Account masking**: following the anonymization described above, documents can be normalized by replacing all of `@0`, `@1`, `@2`, ... etc. with `@USER`.
+* **HTML tag removal**: remove lingering HTML tags from text.
 * **Stopword removal**: removes all stopwords that are included in the NLTK Dutch stopword corpus.
-* **Punctuation removal**: removes all punctuation according to Python's `string.punctuation`, that is, the following characters: ```!"#$%&'()*+, -./:;<=>?@[\]^_`{|}~```
+* **Punctuation removal**: removes all punctuation characters (that are categorized as such by `unicodedata.category`).
 * **Lemmatization**: reduces words to a root form, using the `nl_core_news_lg` corpus from Spacy.
 * **Stemming**: reduces words to their stem, e.g. by removing prefixes and suffixes, using the Dutch `snowball` stemmer from Spacy. Lemmatization seems to perform better than stemming for the present corpus.
+* **Lowercasing**: casting all words in the text to lowercase.
 
 The preprocessing steps to be executed are defined in `config/preprocess.yaml`.
 The steps are applied in the order that they are listed.

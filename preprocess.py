@@ -1,9 +1,11 @@
 from pathlib import Path
 
+import pandas as pd
 from confidence import load_name
 from tqdm import tqdm
 
 from preprocess import load_filereader, load_preprocessor
+from preprocess.utils import group
 
 
 def main():
@@ -17,17 +19,25 @@ def main():
     for input_file in tqdm(config.input_files, desc="Reading files to preprocess..."):
         reader = load_filereader(input_file.kind)
 
-        for input_file_name in input_file.names:
+        documents = []
+
+        for input_file_name in input_file.filenames:
             file_name = Path(input_file_name)
-            documents = reader(file_name)
-            documents['original_text'] = documents['text']
+            documents.append(reader(file_name))
 
-            for step in tqdm(config.steps, desc="    Applying preprocessing steps..."):
-                preprocessor = load_preprocessor(step.kind, **step.settings)
-                documents['text'] = documents['text'].apply(preprocessor)
+        documents = pd.concat(documents)
 
-            documents.to_csv(file_name.parent / f"{file_name.stem}_preprocessed.csv", index=False)
-            documents.to_excel(file_name.parent / f"{file_name.stem}_preprocessed.xlsx", index=False)
+        if input_file.group_by:
+            documents = group(documents, list(input_file.group_by))
+
+        documents['original_text'] = documents['text']
+
+        for step in tqdm(config.steps, desc="    Applying preprocessing steps..."):
+            preprocessor = load_preprocessor(step.kind, **step.settings)
+            documents['text'] = documents['text'].apply(preprocessor)
+
+        documents.to_csv(f"{input_file.name}_preprocessed.csv", index=False)
+        documents.to_excel(f"{input_file.stem}_preprocessed.xlsx", index=False)
 
 
 if __name__ == '__main__':

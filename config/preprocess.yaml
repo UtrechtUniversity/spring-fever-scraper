@@ -1,14 +1,20 @@
 preprocess:
   input_files:
-    - names:
+    - name: scratch/scraped_posts
+      filenames:
         - scratch/scraped_posts.csv
       kind: csv
-    - names:
+      group_by: [page_author_id, page_name]
+    - name: scratch/articles
+      filenames:
         - scratch/test_set_articles.ZIP
       kind: zip
+      group_by: [article_text]
   steps:
+    - kind: html-remover
+    - kind: lowercaser
     - kind: account-masker
     - kind: stopword-remover
     - kind: punctuation-remover
     - kind: lemmatizer
-#  - kind: stemmer
+    - kind: lowercaser # lowercase twice: before and after lemmatizer

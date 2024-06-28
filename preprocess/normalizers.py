@@ -26,3 +26,8 @@ class Lemmatizer(Preprocessor):
     def __call__(self, sentence: str) -> str:
         doc = self.nlp(sentence)
         return " ".join(token.lemma_ for token in doc)
+
+
+class Lowercaser(Preprocessor):
+    def __call__(self, sentence: str) -> str:
+        return sentence.lower()

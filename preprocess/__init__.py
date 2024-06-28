@@ -2,13 +2,15 @@ from typing import Callable
 
 from preprocess.base import Preprocessor
 from preprocess.maskers import AccountMasker
-from preprocess.removers import StopwordRemover, PunctuationRemover
-from preprocess.normalizers import Stemmer, Lemmatizer
+from preprocess.normalizers import Lemmatizer, Lowercaser, Stemmer
+from preprocess.removers import HTMLTagRemover, PunctuationRemover, StopwordRemover
 from preprocess.utils import read_from_csv, read_from_zip
 
 PREPROCESSORS = {
     'account-masker': AccountMasker,
+    'html-remover': HTMLTagRemover,
     'lemmatizer': Lemmatizer,
+    'lowercaser': Lowercaser,
     'punctuation-remover': PunctuationRemover,
     'stemmer': Stemmer,
     'stopword-remover': StopwordRemover
