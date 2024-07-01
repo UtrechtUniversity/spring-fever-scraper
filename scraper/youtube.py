@@ -4,13 +4,13 @@ from confidence import load_name
 from googleapiclient.discovery import build
 from tqdm import tqdm
 
-from scraper.base import Scraper, Post
-from scraper.utils import get_author_id
+from scraper.base import Post, Scraper
+from scraper.utils import AuthorHandler
 
 
 class YouTubeScraper(Scraper):
 
-    def __init__(self, name: str, video_id: str,
+    def __init__(self, name: str, video_id: str, author_handler: AuthorHandler,
                  api_yaml: Optional[str] = "credentials/yt_apikey"):
         """
         Functionality for scraping video reactions from YouTube.
@@ -20,11 +20,15 @@ class YouTubeScraper(Scraper):
         Requires an API key to access the YouTube Data API V3.
 
         :param name: string identifier to be used in results
+        :param video_id: id of video (end of youtube URL)
+        :param author_handler: class for replacing authors by id
+        :param api_yaml: location of the yaml file with the API key
         """
         super().__init__(name)
         self.video_id = video_id
         self.video_url = f"https://www.youtube.com/watch?v={self.video_id}"
         self.api_key = load_name(api_yaml).api_key
+        self.author_handler = author_handler
 
     def fetch_comment_pages(self, video_id: str) -> Optional[list[dict]]:
         """
@@ -58,12 +62,13 @@ class YouTubeScraper(Scraper):
         """
         for item in video['items']:
             comment = item['snippet']['topLevelComment']['snippet']
-            yield get_author_id(comment['authorDisplayName']), comment['textDisplay']
+            yield self.author_handler.get_author_id(comment['authorDisplayName']), comment['textDisplay']
 
             if item['snippet']['totalReplyCount'] > 0:
                 for reply in item['replies']['comments']:
                     reply_message = reply['snippet']
-                    yield get_author_id(reply_message['authorDisplayName']), reply_message['textDisplay']
+                    yield (self.author_handler.get_author_id(reply_message['authorDisplayName']),
+                           reply_message['textDisplay'])
 
     def run(self) -> Generator[Post, None, None]:
         if pages := self.fetch_comment_pages(self.video_id):

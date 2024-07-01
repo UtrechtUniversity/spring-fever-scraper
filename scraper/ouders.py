@@ -2,20 +2,22 @@ from typing import Generator
 
 from bs4 import BeautifulSoup
 
+from scraper.utils import AuthorHandler
 from scraper.web import WebScraper
-from scraper.utils import get_author_id
 
 
 class OudersNLScraper(WebScraper):
 
-    def __init__(self, name: str, base_url: str):
+    def __init__(self, name: str, base_url: str, author_handler: AuthorHandler):
         """
         Functionality for scraping forum posts and responses from www.ouders.nl.
         Intended to be used for scraping a single forum post (including all pages).
         :param name: string identifier to be used in results
         :param base_url: the url for the forum post to be scraped
+        :param author_handler: class for replacing authors by id
         """
         super().__init__(name, base_url)
+        self.author_handler = author_handler
         self.first_scraped = False
 
     def parse(self, soup: BeautifulSoup) -> Generator[tuple[int, str], None, None]:
@@ -36,7 +38,7 @@ class OudersNLScraper(WebScraper):
             author_name = reaction.find('div', class_='author-information').find('h3').text.strip()
             texts = reaction.find('div', class_='content').find_all('p', recursive=False)
 
-            yield get_author_id(author_name), " ".join(t.text.strip() for t in texts)
+            yield self.author_handler.get_author_id(author_name), " ".join(t.text.strip() for t in texts)
 
     def collect_subpages(self) -> None:
         """

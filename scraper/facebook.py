@@ -4,12 +4,13 @@ import facebook_scraper as fs
 from tqdm import tqdm
 
 from scraper.base import Scraper, Post
-from scraper.utils import get_author_id
+from scraper.utils import AuthorHandler
 
 
 class FacebookScraper(Scraper):
 
     def __init__(self, name: str, post_url: str, post_id: str,
+                 author_handler: AuthorHandler,
                  cookies_path: Optional[str] = "credentials/fb_cookies.json",
                  max_comments: Optional[int] = 100):
         """
@@ -25,12 +26,14 @@ class FacebookScraper(Scraper):
         :param name: string identifier to be used in results
         :param post_url: the url for the post to be scraped
         :param post_id: the Facebook ID for the post
+        :param author_handler: class for replacing authors by id
         :param cookies_path: path to a local cookies file
         :param max_comments: max number of comments to scrape
         """
         super().__init__(name)
         self.post_url = post_url
         self.post_id = post_id
+        self.author_handler = author_handler
         self.cookies_path = cookies_path
         self.max_comments = max_comments
 
@@ -56,9 +59,9 @@ class FacebookScraper(Scraper):
         """
         comments = post['comments_full']
         for comment in comments:
-            yield get_author_id(comment['commenter_name']), comment['comment_text']
+            yield self.author_handler.get_author_id(comment['commenter_name']), comment['comment_text']
             for reply in comment['replies']:
-                yield get_author_id(reply['commenter_name']), reply['comment_text']
+                yield self.author_handler.get_author_id(reply['commenter_name']), reply['comment_text']
 
     def run(self) -> Generator[Post, None, None]:
         if post := self.fetch(self.post_id):

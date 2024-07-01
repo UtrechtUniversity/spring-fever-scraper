@@ -10,5 +10,6 @@ scipy
 striprtf
 spacy
 pandas
+pyyaml
 requests
 tqdm
