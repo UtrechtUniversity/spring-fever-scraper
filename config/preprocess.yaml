@@ -9,7 +9,7 @@ preprocess:
       filenames:
         - scratch/test_set_articles.ZIP
       kind: zip
-      group_by: [article_text]
+      group_by: [text]
   steps:
     - kind: html-remover
     - kind: lowercaser

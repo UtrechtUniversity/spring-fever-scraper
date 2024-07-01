@@ -51,9 +51,7 @@ def parse_rtf(
     content_start = text_split.index(start_text) + 1 if start_text in text_split else 0
     content_end = text_split.index(end_text) if end_text in text_split else len(text_split)
 
-    article_text = " ".join(text_split[content_start:content_end])
-
-    text = f"{title} {article_text}"
+    text = " ".join(text_split[content_start:content_end])
 
     day, month, year = parse_date(date)
 
@@ -64,7 +62,6 @@ def parse_rtf(
         'month': month,
         'year': year,
         'date': date,
-        'article_text': article_text,
         'text': text
     }
 
