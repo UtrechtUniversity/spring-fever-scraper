@@ -76,5 +76,5 @@ def parse_date(date: str) -> Tuple[Optional[int], Optional[int], Optional[int]]:
 
 
 def group(df: pd.DataFrame, columns: Sequence[str]) -> pd.DataFrame:
-    new_df = df.groupby(columns).agg(lambda x: ", ".join(x)).reset_index()
+    new_df = df.groupby(columns).agg(lambda x: ", ".join(str(i) for i in x if i)).reset_index()
     return new_df

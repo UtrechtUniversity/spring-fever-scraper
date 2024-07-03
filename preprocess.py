@@ -16,12 +16,12 @@ def main():
     """
     config = load_name('config/preprocess').preprocess
 
-    for input_file in tqdm(config.input_files, desc="Reading files to preprocess..."):
+    for input_file in tqdm(config.input_files, desc="Reading file groups to preprocess..."):
         reader = load_filereader(input_file.kind)
 
         documents = []
 
-        for input_file_name in input_file.filenames:
+        for input_file_name in tqdm(input_file.filenames, desc="    Reading files..."):
             file_name = Path(input_file_name)
             documents.append(reader(file_name))
 
@@ -32,7 +32,7 @@ def main():
 
         documents['original_text'] = documents['text']
 
-        for step in tqdm(config.steps, desc="    Applying preprocessing steps..."):
+        for step in tqdm(config.steps, desc="       Applying preprocessing steps..."):
             preprocessor = load_preprocessor(step.kind, **step.settings)
             documents['text'] = documents['text'].apply(preprocessor)
 

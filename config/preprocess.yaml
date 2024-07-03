@@ -7,7 +7,27 @@ preprocess:
       group_by: [page_author_id, page_name]
     - name: scratch/articles
       filenames:
-        - scratch/test_set_articles.ZIP
+        - scratch/Kranten 001 - 100.ZIP
+        - scratch/Kranten 101 - 200.ZIP
+        - scratch/Kranten 201 - 300.ZIP
+        - scratch/Kranten 301 - 400.ZIP
+        - scratch/Kranten 401 - 500.ZIP
+        - scratch/Kranten 501 - 600.ZIP
+        - scratch/Kranten 601 - 700.ZIP
+        - scratch/Kranten 701 - 800.ZIP
+        - scratch/Kranten 801 - 900.ZIP
+        - scratch/Kranten 901 - 1000.ZIP
+        - scratch/Kranten 1001 - 1100.ZIP
+        - scratch/Kranten 1101 - 1200.ZIP
+        - scratch/Kranten 1201 - 1300.ZIP
+        - scratch/Kranten 1301 - 1400.ZIP
+        - scratch/Kranten 1401 - 1500.ZIP
+        - scratch/Kranten 1501 - 1600.ZIP
+        - scratch/Kranten 1601 - 1700.ZIP
+        - scratch/Kranten 1701 - 1800.ZIP
+        - scratch/Kranten 1801 - 1900.ZIP
+        - scratch/Kranten 1901 - 2000.ZIP
+        - scratch/Kranten 2001 - 2095.ZIP
       kind: zip
       group_by: [text]
   steps:
