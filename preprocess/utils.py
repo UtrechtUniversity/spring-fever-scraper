@@ -24,7 +24,7 @@ def read_from_zip(zip_file_path: os.PathLike) -> pd.DataFrame:
 
     parsed_rtfs = []
     rtf_files = [f for f in os.listdir(output_dir)
-                 if f.endswith('.rtf')]
+                 if f.endswith('.rtf') and not '_doclist' in f]
     for file in rtf_files:
         with open(output_dir / file, 'r') as rtf_file:
             rtf_content = rtf_file.read()
