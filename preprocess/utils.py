@@ -7,7 +7,8 @@ from typing import Dict, Optional, Sequence, Tuple
 import pandas as pd
 from striprtf.striprtf import rtf_to_text
 
-DATE_PATTERN = r"(\d{1,2})\s(\w+)\s(\d{4})"
+DATE_PATTERNS = [r"(\d{1,2})\s(\w+)\s(\d{4})", r"(\b\w+\b)\s(\d{1,2}),\s(\d{4})"]
+REMOVE_TEXTS = ["ABSTRACT ", "SAMENVATTING ", "VOLLEDIGE TEKST: "]
 
 
 def read_from_csv(filename: os.PathLike) -> pd.DataFrame:
@@ -53,6 +54,9 @@ def parse_rtf(
 
     text = " ".join(text_split[content_start:content_end])
 
+    for remove_text in REMOVE_TEXTS:
+        text = text.replace(remove_text, "")
+
     day, month, year = parse_date(date)
 
     return {
@@ -67,12 +71,12 @@ def parse_rtf(
 
 
 def parse_date(date: str) -> Tuple[Optional[int], Optional[int], Optional[int]]:
-    match = re.search(DATE_PATTERN, date)
-    if match:
-        day, month, year = match.groups()
-        return day, month, year
-    else:
-        return None, None, None
+    for date_pattern in DATE_PATTERNS:
+        match = re.search(date_pattern, date)
+        if match:
+            day, month, year = match.groups()
+            return day, month, year
+    return None, None, None
 
 
 def group(df: pd.DataFrame, columns: Sequence[str]) -> pd.DataFrame:
