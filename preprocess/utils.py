@@ -7,7 +7,8 @@ from typing import Dict, Optional, Sequence, Tuple
 import pandas as pd
 from striprtf.striprtf import rtf_to_text
 
-DATE_PATTERNS = [r"(\d{1,2})\s(\w+)\s(\d{4})", r"(\b\w+\b)\s(\d{1,2}),\s(\d{4})"]
+DATE_PATTERN_1 = r"(\d{1,2})\s(\w+)\s(\d{4})"
+DATE_PATTERN_2 = r"(\b\w+\b)\s(\d{1,2}),\s(\d{4})"
 REMOVE_TEXTS = ["ABSTRACT ", "SAMENVATTING ", "VOLLEDIGE TEKST: "]
 
 
@@ -71,11 +72,16 @@ def parse_rtf(
 
 
 def parse_date(date: str) -> Tuple[Optional[int], Optional[int], Optional[int]]:
-    for date_pattern in DATE_PATTERNS:
-        match = re.search(date_pattern, date)
-        if match:
-            day, month, year = match.groups()
-            return day, month, year
+    match1 = re.search(DATE_PATTERN_1, date)
+    if match1:
+        day, month, year = match1.groups()
+        return day, month, year
+
+    match2 = re.search(DATE_PATTERN_2, date)
+    if match2:
+        month, day, year = match2.groups()
+        return day, month, year
+
     return None, None, None
 
 
