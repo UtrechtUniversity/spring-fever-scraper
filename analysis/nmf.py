@@ -14,9 +14,7 @@ class NMFModel(Model, ABC):
             max_df=0.95, min_df=2, max_features=self.n_features
         )
         tfidf_features = self.vectorizer.fit_transform(corpus)
-
-        self.model = self.model.fit(tfidf_features)
-
+        self.items_by_topic = self.model.fit_transform(tfidf_features)
         self.fitted = True
 
 

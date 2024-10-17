@@ -15,13 +15,12 @@ class LDAModel(Model, ABC):
         )
         tf_features = self.vectorizer.fit_transform(corpus)
 
-        lda = LatentDirichletAllocation(
+        self.model = LatentDirichletAllocation(
             n_components=self.n_components,
             max_iter=5,
             learning_method="online",
             learning_offset=50.0,
             random_state=0,
         )
-
-        self.model = lda.fit(tf_features)
+        self.items_by_topic = self.model.fit_transform(tf_features)
         self.fitted = True
