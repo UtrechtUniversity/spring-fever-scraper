@@ -3,10 +3,13 @@ confidence
 facebook-scraper
 google-api-python-client
 lxml_html_clean
+matplotlib
 nltk
 numpy
 openpyxl
 scipy
+scikit-learn
+streamlit
 striprtf
 spacy
 pandas
