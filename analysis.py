@@ -4,6 +4,8 @@ import streamlit as st
 from analysis import MODELS, load_model
 from analysis.visualize import plot_top_words, plot_topic_distribution
 
+SHOWN_COLS = ['title', 'source', 'date', 'original_text', 'page_name', 'url']
+
 
 class Analysis:
     """
@@ -20,7 +22,7 @@ class Analysis:
         self.words_shown = None
 
     def __call__(self):
-        st.title("Topic modelling analysis")
+        st.title("Topic Modelling")
 
         with st.form("Configure topic model settings"):
             self.get_input()
@@ -57,26 +59,39 @@ class Analysis:
     def validate_clean_input(self) -> bool:
         try:
             self.dataset = pd.read_csv(self.uploaded_file)
+            if 'url' in self.dataset.columns:
+                self.dataset['url'] = self.dataset['url'].str.split(',').str[0]
+
         except:
             st.error("Could not read file. Make sure it is a comma-separated .csv file.")
             return False
 
         if 'text' not in self.dataset.columns:
             st.error("File needs to contain a column called 'text'.")
+            return False
 
         self.corpus = self.dataset['text'].astype(str).str.replace('user', '').str.replace('https', '').tolist()
         return True
 
     def run_analysis(self):
         st.subheader("Results")
-        model = load_model(self.model, n_features=self.n_features, n_components=self.n_components)
-        model.fit(self.corpus)
+        with st.spinner("Applying model..."):
+            model = load_model(self.model, n_features=self.n_features, n_components=self.n_components)
+            model.fit(self.corpus)
 
         fig = plot_top_words(model.words_by_topic, model.feature_names, n_top_words=self.words_shown)
         st.pyplot(fig)
 
-        df = plot_topic_distribution(model.items_by_topic, self.dataset, 1)
-        st.dataframe(df)
+        df = plot_topic_distribution(model.items_by_topic, self.dataset, SHOWN_COLS)
+        st.data_editor(
+            df,
+            column_config={
+                "url": st.column_config.LinkColumn("Url"),
+            } if 'url' in df.columns else {},
+            use_container_width=True,
+            disabled=True,
+            hide_index=True
+        )
 
 
 if __name__ == '__main__':

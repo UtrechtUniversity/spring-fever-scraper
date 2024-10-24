@@ -1,5 +1,5 @@
 import math
-from typing import Iterable
+from typing import Iterable, List
 
 import numpy as np
 import pandas as pd
@@ -29,12 +29,13 @@ def plot_top_words(
 
 
 def plot_topic_distribution(
-        items_by_topic: np.ndarray, dataset: pd.DataFrame, topic_id: int
+        items_by_topic: np.ndarray, dataset: pd.DataFrame, show_cols: List[str]
 ):
-    dominant_topic = np.argmax(items_by_topic,axis=1) + 1
 
-    dataset['dominant_topic'] = dominant_topic
+    topic_cols = [f"topic_{i+1}" for i in range(items_by_topic.shape[1])]
 
-    return dataset[dataset['dominant_topic'] == topic_id][['original_text']]
+    dataset[topic_cols] = items_by_topic
+
+    return dataset[[c for c in show_cols if c in dataset.columns] + topic_cols]
 
 
