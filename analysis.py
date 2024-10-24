@@ -1,3 +1,5 @@
+import hmac
+
 import pandas as pd
 import streamlit as st
 
@@ -5,6 +7,7 @@ from analysis import MODELS, load_model
 from analysis.visualize import plot_top_words, plot_topic_distribution
 
 SHOWN_COLS = ['title', 'source', 'date', 'original_text', 'page_name', 'url']
+USE_PASSWORD = True
 
 
 class Analysis:
@@ -23,6 +26,9 @@ class Analysis:
 
     def __call__(self):
         st.title("Topic Modelling")
+
+        if USE_PASSWORD and not self.check_password():
+            st.stop()
 
         with st.form("Configure topic model settings"):
             self.get_input()
@@ -75,23 +81,47 @@ class Analysis:
 
     def run_analysis(self):
         st.subheader("Results")
+        
         with st.spinner("Applying model..."):
             model = load_model(self.model, n_features=self.n_features, n_components=self.n_components)
             model.fit(self.corpus)
 
-        fig = plot_top_words(model.words_by_topic, model.feature_names, n_top_words=self.words_shown)
-        st.pyplot(fig)
+        with st.spinner("Showing results..."):
+            fig = plot_top_words(model.words_by_topic, model.feature_names, n_top_words=self.words_shown)
+            st.pyplot(fig)
 
-        df = plot_topic_distribution(model.items_by_topic, self.dataset, SHOWN_COLS)
-        st.data_editor(
-            df,
-            column_config={
-                "url": st.column_config.LinkColumn("Url"),
-            } if 'url' in df.columns else {},
-            use_container_width=True,
-            disabled=True,
-            hide_index=True
+            df = plot_topic_distribution(model.items_by_topic, self.dataset, SHOWN_COLS)
+            st.data_editor(
+                df,
+                column_config={
+                    "url": st.column_config.LinkColumn("Url"),
+                } if 'url' in df.columns else {},
+                use_container_width=True,
+                disabled=True,
+                hide_index=True
+            )
+
+    @staticmethod
+    def check_password():
+
+        def password_entered():
+            if hmac.compare_digest(st.session_state["password"], st.secrets["password"]):
+                st.session_state["password_correct"] = True
+                del st.session_state["password"]  # Don't store the password.
+            else:
+                st.session_state["password_correct"] = False
+
+        # Return True if the password is validated.
+        if st.session_state.get("password_correct", False):
+            return True
+
+        # Show input for password.
+        st.text_input(
+            "Password", type="password", on_change=password_entered, key="password"
         )
+        if "password_correct" in st.session_state:
+            st.error("😕 Password incorrect")
+        return False
 
 
 if __name__ == '__main__':
