@@ -5,6 +5,7 @@ from typing import Iterable, List, Optional
 import numpy as np
 import pandas as pd
 from matplotlib import pyplot as plt
+from matplotlib.ticker import MaxNLocator
 
 
 def plot_top_words(
@@ -76,7 +77,7 @@ def plot_total_documents_over_time(dataset: pd.DataFrame, granularity: str = 'mo
     """
     Plot the total number of documents over time (as line plot).
     :param dataset: dataset containing the documents and a date column
-    :param granularity: either `month_year` or `year`
+    :param granularity: either `month_year`, `month` or `year`
     :return: figure with the line plot
     """
     date_counts = dataset.groupby(granularity).size()
@@ -88,6 +89,8 @@ def plot_total_documents_over_time(dataset: pd.DataFrame, granularity: str = 'mo
         all_years = date_counts.index.sort_values()
         ax.set_xticks(all_years)
         ax.set_xticklabels([int(year) for year in all_years], rotation=45, fontsize=8)
+
+    ax.yaxis.set_major_locator(MaxNLocator(nbins=6, integer=True))
 
     ax.set_title(f'Total number of documents by {granularity}')
     plt.xlabel(f'{granularity}')
