@@ -34,7 +34,7 @@ class Analysis:
         with st.form("Configure topic model settings"):
             self.get_input()
 
-            if st.form_submit_button("Run topic model"):
+            if st.form_submit_button("Run topic model!"):
                 if self.validate_clean_input():
                     self.run_analysis()
 
