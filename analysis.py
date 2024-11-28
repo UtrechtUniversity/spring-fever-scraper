@@ -103,7 +103,8 @@ class Analysis:
             )
 
             if (topics_and_dates := add_topics_and_dates(model.items_by_topic_normalized, self.dataset)) is not None:
-                st.markdown("### Total number of documents by month")
+                st.markdown("### Total number of documents by month & year")
+                st.write("The discourse peaks each year in spring and explodes in the last few years.")
                 plot_docs_over_time = plot_total_documents_over_time(topics_and_dates)
                 st.pyplot(plot_docs_over_time, use_container_width=False)
 
@@ -111,8 +112,13 @@ class Analysis:
                 plot_docs_years = plot_total_documents_over_time(topics_and_dates, granularity='year')
                 st.pyplot(plot_docs_years, use_container_width=False)
 
+                st.markdown("### Total number of documents by month")
+                st.write("The largest number of articles is published in March.")
+                plot_docs_years = plot_total_documents_over_time(topics_and_dates, granularity='month')
+                st.pyplot(plot_docs_years, use_container_width=False)
+
                 st.markdown("### Mean propensity over time (years)")
-                st.caption("In the plot below, the average score of a topic across all articles is visualized.")
+                st.write("In the plot below, the average score of a topic across all articles is visualized.")
                 plot_topic_scores = plot_topic_propensity_over_time(topics_and_dates)
                 st.pyplot(plot_topic_scores, use_container_width=False)
 

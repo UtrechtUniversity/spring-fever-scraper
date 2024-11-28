@@ -55,15 +55,17 @@ def add_topics_and_dates(
     topic_cols = [f"topic_{i + 1}" for i in range(items_by_topic.shape[1])]
     dataset[topic_cols] = items_by_topic
 
-    dutch_to_month = {
+    month_str_to_int = {
         'januari': 1, 'februari': 2, 'maart': 3, 'april': 4, 'mei': 5, 'juni': 6,
-        'juli': 7, 'augustus': 8, 'september': 9, 'oktober': 10, 'november': 11, 'december': 12
+        'juli': 7, 'augustus': 8, 'september': 9, 'oktober': 10, 'november': 11, 'december': 12,
+        'january': 1, 'february': 2, 'march': 3, 'may': 5, 'june': 6,
+        'july': 7, 'august': 8, 'october': 10
     }
 
-    dataset['month'] = dataset['month'].str.lower().replace(dutch_to_month)
+    dataset['month'] = dataset['month'].str.lower().replace(month_str_to_int)
 
     dataset['month_year'] = pd.to_datetime(dataset[['month', 'year']].astype(str).agg(' '.join, axis=1),
-                                           format='%m %Y.0', errors='coerce')
+                                           format='%m.0 %Y.0', errors='coerce')
 
     dataset['year'] = pd.to_numeric(dataset['year'], errors='coerce', downcast='integer')
 
@@ -79,7 +81,7 @@ def plot_total_documents_over_time(dataset: pd.DataFrame, granularity: str = 'mo
     """
     date_counts = dataset.groupby(granularity).size()
     fig, ax = plt.subplots(figsize=(6, 2))
-    date_counts.plot(kind='line', marker='o', markersize=1, ax=ax)
+    date_counts.plot(kind='line', linewidth=0.7, marker='o', markersize=1, ax=ax)
 
     # set x-axis ticks for years
     if granularity == 'year':
