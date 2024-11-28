@@ -55,7 +55,7 @@ def add_topics_and_dates(
     topic_cols = [f"topic_{i + 1}" for i in range(items_by_topic.shape[1])]
     dataset[topic_cols] = items_by_topic
 
-    locale.setlocale(locale.LC_TIME, 'nl_NL.UTF-8')
+    #locale.setlocale(locale.LC_TIME, 'nl_NL.UTF-8')
 
     dataset['month_year'] = pd.to_datetime(dataset[['month', 'year']].astype(str).agg(' '.join, axis=1),
                                            format='%B %Y.0', errors='coerce')
