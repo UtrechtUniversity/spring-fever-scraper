@@ -34,7 +34,7 @@ class Analysis:
         with st.form("Configure topic model settings"):
             self.get_input()
 
-            if st.form_submit_button("Run topic model!"):
+            if st.form_submit_button("Run topic model"):
                 if self.validate_clean_input():
                     self.run_analysis()
 
@@ -66,8 +66,9 @@ class Analysis:
     def validate_clean_input(self) -> bool:
         try:
             self.dataset = pd.read_csv(self.uploaded_file)
-            if 'url' in self.dataset.columns:
-                self.dataset['url'] = self.dataset['url'].str.split(',').str[0]
+            for col in ['url', 'day', 'month', 'year']:
+                if col in self.dataset.columns and not pd.api.types.is_float_dtype(self.dataset[col]):
+                    self.dataset[col] = self.dataset[col].str.split(',').str[0]
 
         except:
             st.error("Could not read file. Make sure it is a comma-separated .csv file.")

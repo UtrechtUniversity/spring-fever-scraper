@@ -6,7 +6,6 @@ import pandas as pd
 from matplotlib import pyplot as plt
 from matplotlib.ticker import MaxNLocator
 
-import streamlit as st
 
 def plot_top_words(
         words_by_topic: np.ndarray, feature_names: Iterable[str], n_top_words: int,
@@ -29,7 +28,7 @@ def plot_top_words(
         ax.barh(top_features, weights, height=0.7)
         ax.set_title(f"Topic {topic_idx + 1}", fontdict={"fontsize": 30})
         ax.tick_params(axis="both", which="major", labelsize=20)
-        for i in "top right left".split():
+        for i in ["top", "right", "left"]:
             ax.spines[i].set_visible(False)
 
     plt.subplots_adjust(top=0.90, bottom=0.05, wspace=0.90, hspace=0.3)
@@ -62,15 +61,13 @@ def add_topics_and_dates(
         'january': 1, 'february': 2, 'march': 3, 'may': 5, 'june': 6,
         'july': 7, 'august': 8, 'october': 10
     }
-    st.dataframe(dataset)
-    st.dataframe(dataset['month'].str.lower().unique())
 
+    dataset['year'] = pd.to_numeric(dataset['year'], errors='coerce', downcast='integer')
     dataset['month'] = dataset['month'].str.lower().replace(month_str_to_int)
+    dataset['day'] = pd.to_numeric(dataset['day'], errors='ignore')
 
     dataset['month_year'] = pd.to_datetime(dataset[['month', 'year']].astype(str).agg(' '.join, axis=1),
                                            format='%m.0 %Y.0', errors='coerce')
-
-    dataset['year'] = pd.to_numeric(dataset['year'], errors='coerce', downcast='integer')
 
     return dataset
 
