@@ -103,7 +103,7 @@ class Analysis:
             )
 
             if (topics_and_dates := add_topics_and_dates(model.items_by_topic_normalized, self.dataset)) is not None:
-                st.markdown("### Total number of documents by month & year")
+                st.markdown("### Total number of documents by month and year")
                 st.write("The discourse peaks each year in spring and explodes in the last few years.")
                 plot_docs_over_time = plot_total_documents_over_time(topics_and_dates)
                 st.pyplot(plot_docs_over_time, use_container_width=False)
