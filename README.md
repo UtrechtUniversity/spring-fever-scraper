@@ -44,6 +44,7 @@ Therefore, if privacy is of concern (which it most likely is), make sure to perf
 
 The script `preprocess.py` contains functionality for preprocessing of natural language.
 The available options were developed with classical topic modelling approaches in mind.
+
 For topic modelling, it is desirable that documents are "normalized" as much as possible, in order to increase the density of the distribution of the model to be fit.
 This means that all preprocessing options help to reduce the text to a form that maintains the most important features that capture the meaning of the text, while removing as much redundancy as possible.
 Moreover, the documents are assumed to be in Dutch, so Dutch lexicons are used wherever appropriate (although it should be straightforward to replace these if required).
@@ -64,7 +65,16 @@ In addition, the files that preprocessing should be applied to are listed in the
 
 ## Analysis
 
-Todo.
+To perform topic analysis on the scraped documents, run `streamlit run analysis.py` from the terminal.
+This will open an interactive Streamlit application.
+You may upload the scraped and preprocessed .csv files obtained in the previous steps, and apply a topic modelling technique.
+
+Three approaches can be used: Latent Dirichlet Analysis (LDA), Non-negative Matrix Factorization (NMF) with a Kullback-Leibler optimizer or NMF with a Frobenius norm.
+For the present dataset, the best results were found with NMF with Kullback-Leibler, likely because of the short texts.
+The number of topics created, the number of words to take into account and the number of words shown in the plots can be manually specified.
+
+After running the topic model, several visualizations are produced to understand the results better.
+
 
 ## Contact
 
