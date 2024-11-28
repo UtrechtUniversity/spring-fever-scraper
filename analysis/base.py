@@ -13,6 +13,7 @@ class Model(ABC):
         self.model = None
         self._words_by_topic = None
         self.items_by_topic = None
+        self.items_by_topic_normalized = None
         self._feature_names = None
         self.fitted = False
 

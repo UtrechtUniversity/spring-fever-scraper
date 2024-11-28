@@ -23,4 +23,5 @@ class LDAModel(Model, ABC):
             random_state=0,
         )
         self.items_by_topic = self.model.fit_transform(tf_features)
+        self.items_by_topic_normalized = self.items_by_topic / self.items_by_topic.sum(axis=1, keepdims=True)
         self.fitted = True

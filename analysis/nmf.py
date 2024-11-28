@@ -15,6 +15,7 @@ class NMFModel(Model, ABC):
         )
         tfidf_features = self.vectorizer.fit_transform(corpus)
         self.items_by_topic = self.model.fit_transform(tfidf_features)
+        self.items_by_topic_normalized = self.items_by_topic / self.items_by_topic.sum(axis=1, keepdims=True)
         self.fitted = True
 
 

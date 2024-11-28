@@ -4,7 +4,8 @@ import pandas as pd
 import streamlit as st
 
 from analysis import MODELS, load_model
-from analysis.visualize import plot_top_words, plot_topic_distribution
+from analysis.visualize import add_topics_and_dates, add_topics_to_df, plot_top_words, plot_topic_propensity_over_time, \
+    plot_total_documents_over_time
 
 SHOWN_COLS = ['title', 'source', 'date', 'original_text', 'page_name', 'url']
 USE_PASSWORD = True
@@ -81,25 +82,39 @@ class Analysis:
 
     def run_analysis(self):
         st.subheader("Results")
-        
+
         with st.spinner("Applying model..."):
             model = load_model(self.model, n_features=self.n_features, n_components=self.n_components)
             model.fit(self.corpus)
 
         with st.spinner("Showing results..."):
-            fig = plot_top_words(model.words_by_topic, model.feature_names, n_top_words=self.words_shown)
-            st.pyplot(fig)
+            plot_words = plot_top_words(model.words_by_topic, model.feature_names, n_top_words=self.words_shown)
+            st.pyplot(plot_words)
 
-            df = plot_topic_distribution(model.items_by_topic, self.dataset, SHOWN_COLS)
+            combined_topics = add_topics_to_df(model.items_by_topic_normalized, self.dataset, SHOWN_COLS)
             st.data_editor(
-                df,
+                combined_topics,
                 column_config={
                     "url": st.column_config.LinkColumn("Url"),
-                } if 'url' in df.columns else {},
+                } if 'url' in combined_topics.columns else {},
                 use_container_width=True,
                 disabled=True,
                 hide_index=True
             )
+
+            if (topics_and_dates := add_topics_and_dates(model.items_by_topic_normalized, self.dataset)) is not None:
+                st.markdown("### Total number of documents by month")
+                plot_docs_over_time = plot_total_documents_over_time(topics_and_dates)
+                st.pyplot(plot_docs_over_time, use_container_width=False)
+
+                st.markdown("### Total number of documents by year")
+                plot_docs_years = plot_total_documents_over_time(topics_and_dates, granularity='year')
+                st.pyplot(plot_docs_years, use_container_width=False)
+
+                st.markdown("### Mean propensity over time (years)")
+                st.caption("In the plot below, the average score of a topic across all articles is visualized.")
+                plot_topic_scores = plot_topic_propensity_over_time(topics_and_dates)
+                st.pyplot(plot_topic_scores, use_container_width=False)
 
     @staticmethod
     def check_password():
