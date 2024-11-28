@@ -1,4 +1,3 @@
-import locale
 import math
 from typing import Iterable, List, Optional
 
@@ -7,6 +6,7 @@ import pandas as pd
 from matplotlib import pyplot as plt
 from matplotlib.ticker import MaxNLocator
 
+import streamlit as st
 
 def plot_top_words(
         words_by_topic: np.ndarray, feature_names: Iterable[str], n_top_words: int,
@@ -62,6 +62,8 @@ def add_topics_and_dates(
         'january': 1, 'february': 2, 'march': 3, 'may': 5, 'june': 6,
         'july': 7, 'august': 8, 'october': 10
     }
+    st.dataframe(dataset)
+    st.dataframe(dataset['month'].str.lower().unique())
 
     dataset['month'] = dataset['month'].str.lower().replace(month_str_to_int)
 
