@@ -55,10 +55,15 @@ def add_topics_and_dates(
     topic_cols = [f"topic_{i + 1}" for i in range(items_by_topic.shape[1])]
     dataset[topic_cols] = items_by_topic
 
-    #locale.setlocale(locale.LC_TIME, 'nl_NL.UTF-8')
+    dutch_to_month = {
+        'januari': 1, 'februari': 2, 'maart': 3, 'april': 4, 'mei': 5, 'juni': 6,
+        'juli': 7, 'augustus': 8, 'september': 9, 'oktober': 10, 'november': 11, 'december': 12
+    }
+
+    dataset['month'] = dataset['month'].str.lower().replace(dutch_to_month)
 
     dataset['month_year'] = pd.to_datetime(dataset[['month', 'year']].astype(str).agg(' '.join, axis=1),
-                                           format='%B %Y.0', errors='coerce')
+                                           format='%m %Y.0', errors='coerce')
 
     dataset['year'] = pd.to_numeric(dataset['year'], errors='coerce', downcast='integer')
 
