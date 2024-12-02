@@ -90,7 +90,7 @@ class Analysis:
 
         with st.spinner("Showing results..."):
             plot_words = plot_top_words(model.words_by_topic, model.feature_names, n_top_words=self.words_shown)
-            st.pyplot(plot_words)
+            st.pyplot(plot_words, use_container_width=False)
 
             combined_topics = add_topics_to_df(model.items_by_topic_normalized, self.dataset, SHOWN_COLS)
             st.data_editor(

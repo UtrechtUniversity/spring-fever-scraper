@@ -17,7 +17,7 @@ def plot_top_words(
     :param n_top_words: the number of words to display in plot
     :return: the bar plots for all topics
     """
-    fig, axes = plt.subplots(2, int(math.ceil(words_by_topic.shape[0] / 2)), figsize=(30, 15), sharex=True)
+    fig, axes = plt.subplots(2, int(math.ceil(words_by_topic.shape[0] / 2)), figsize=(25, 10), sharex=True)
     axes = axes.flatten()
     for topic_idx, topic in enumerate(words_by_topic):
         top_features_ind = topic.argsort()[-n_top_words:]
@@ -25,13 +25,18 @@ def plot_top_words(
         weights = topic[top_features_ind]
 
         ax = axes[topic_idx]
-        ax.barh(top_features, weights, height=0.7)
-        ax.set_title(f"Topic {topic_idx + 1}", fontdict={"fontsize": 30})
-        ax.tick_params(axis="both", which="major", labelsize=20)
-        for i in ["top", "right", "left"]:
-            ax.spines[i].set_visible(False)
+        ax.barh(top_features, weights, height=0.8)
+        ax.set_title(f"Topic {topic_idx + 1}", fontdict={"fontsize": 15})
+        ax.tick_params(axis="both", which="major", labelsize=12)
 
-    plt.subplots_adjust(top=0.90, bottom=0.05, wspace=0.90, hspace=0.3)
+        for i in ["top", "bottom", "right", "left"]:
+            ax.spines[i].set_visible(False)
+        ax.xaxis.set_visible(False)
+
+    for idx in range(len(words_by_topic), len(axes)):
+        fig.delaxes(axes[idx])
+
+    plt.subplots_adjust(top=0.90, bottom=0.05, wspace=0.3, hspace=0.2)
 
     return fig
 
@@ -87,13 +92,15 @@ def plot_total_documents_over_time(dataset: pd.DataFrame, granularity: str = 'mo
     if granularity == 'year':
         all_years = date_counts.index.sort_values()
         ax.set_xticks(all_years)
-        ax.set_xticklabels([int(year) for year in all_years], rotation=45, fontsize=8)
+        ax.set_xticklabels([int(year) for year in all_years], rotation=45)
 
     ax.yaxis.set_major_locator(MaxNLocator(nbins=6, integer=True))
+    ax.tick_params(axis='y', labelsize=6)
+    ax.tick_params(axis='x', labelsize=6)
 
-    ax.set_title(f'Total number of documents by {granularity}')
-    plt.xlabel(f'{granularity}')
-    plt.ylabel('Number of documents')
+    ax.set_title(f'Total number of documents by {granularity}', fontsize=6)
+    plt.xlabel(f'{granularity}', fontsize=6)
+    plt.ylabel('Number of documents', fontsize=6)
     plt.grid(True)
 
     return fig
@@ -109,7 +116,7 @@ def plot_topic_propensity_over_time(dataset: pd.DataFrame) -> plt.Figure:
     topic_columns = [col for col in dataset.columns if col.startswith("topic_")]
 
     num_topics = len(topic_columns)
-    fig, axes = plt.subplots(num_topics, 1, figsize=(5, 1 * num_topics), sharex=True, sharey=True)
+    fig, axes = plt.subplots(num_topics, 1, figsize=(5, 1.3 * num_topics), sharey=True)
 
     # Ensure axes is iterable even for a single subplot
     if num_topics == 1:
@@ -124,11 +131,9 @@ def plot_topic_propensity_over_time(dataset: pd.DataFrame) -> plt.Figure:
         ax.set_xticklabels([int(year) for year in all_years], rotation=45, fontsize=5)
 
         ax.set_title(f'{topic}', fontsize=6)
-        ax.set_xlabel('year', fontsize=6)
         ax.tick_params(axis='y', labelsize=5)
+        ax.xaxis.label.set_visible(False)
         ax.grid(True, linestyle='--', linewidth=0.5, color='gray', alpha=0.7)
-
-    fig.text(0.01, 0.5, 'Average Propensity', va='center', rotation='vertical', fontsize=6)
 
     plt.tight_layout()
     return fig
